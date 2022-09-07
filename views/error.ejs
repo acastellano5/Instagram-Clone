@@ -1,0 +1,7 @@
+<% layout('layouts/boilerplate') -%>
+
+<h1 class="text-center">Error <%= err.statusCode %></h1>
+<p class="text-center">Something went wrong. Please try again later.</p>
+<% if (process.env.NODE_ENV !== 'production') { %>
+    <p class="text-center"><%= err.stack %></p>
+<% } %>

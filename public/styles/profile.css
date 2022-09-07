@@ -1,0 +1,125 @@
+.profile {
+    border-bottom: 1px solid rgb(216, 216, 216);
+}
+
+.profile-img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 4rem;
+}
+
+.username {
+    font-size: 1.75rem;
+}
+
+.post-img {
+    height: 20vh;
+    width: 100%;
+    object-fit: cover;
+}
+
+.button {
+    width: 100px;
+    height: 35px;
+}
+
+.follow-btn {
+    background-color: rgb(70, 147, 255);
+    color: white;
+    border: none;
+    font-weight: bold;
+}
+
+.unfollow-btn, .edit-profile {
+    background-color: rgb(216, 216, 216);
+    color: black;
+    border: none;
+    font-weight: bold;
+}
+
+.edit-profile {
+    text-decoration: none;
+}
+
+.edit-profile:hover {
+    color: black;
+}
+
+.img-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.img-container:hover {
+    cursor: pointer;
+}
+
+.img-popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: none;
+}
+
+.img-container:hover .img-popup {
+    display: flex;
+}
+
+/* profile media queries */
+
+@media (max-width: 576px) {
+    .profile-img {
+        height: 100px;
+        width: 100px;
+        margin-right: 3rem;
+    }
+
+    .username {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .profile-img {
+        height: 85px;
+        width: 85px;
+        margin-right: 1.5rem;
+    }
+
+    .username {
+        font-size: 1.35rem;
+    }
+}
+
+@media(max-width: 340px) {
+    .stats {
+        font-size: 0.85rem;
+    }
+}
+
+
+/* posts media queries */
+
+@media (min-width: 576px) {
+    .post-img {
+        height: 30vh;
+    }
+}
+
+@media(min-width: 768px) {
+    .post-img {
+        height: 40vh;
+    }
+}
+
+@media (min-width: 1500px) {
+    .post-img {
+        height: 30vh;
+    }
+} 
+

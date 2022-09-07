@@ -1,0 +1,46 @@
+<% layout('layouts/boilerplate') -%>
+
+<% if (error.length) { %> 
+    <div class="row alert-msg">
+        <div class="col-12">
+            <div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
+                <%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+<% } %> 
+
+
+<div class="row justify-content-center">
+    <div class="col-11 col-sm-10 col-md-9 col-lg-8 col-xl-7 col-xxl-6">
+        <h1 class="text-center">Edit Profile</h1>
+
+        <form action="/users/<%= user._id %>/edit?_method=PATCH" method="POST" class="needs-validation" novalidate enctype="multipart/form-data" autocomplete="off">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" name="fullName" class="form-control" value="<%= user.fullName %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username" value="<%= user.username %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="profilePic" class="form-label">Profile Photo</label>
+                <input type="file" class="form-control" name="profilePic" id="profilePic">
+            </div>
+
+            <div class="mb-3">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea name="bio" id="bio" class="form-control"><%= user.bio %></textarea>
+            </div>
+
+            <button class="btn btn-primary">Save</button>
+            <a href="/users/<%= user._id %>/resetPassword" class="btn btn-danger">Reset Password</a>
+        </form>
+    </div>
+</div>
+
+<script src="/js/validate.js"></script>

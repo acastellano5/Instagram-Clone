@@ -1,0 +1,141 @@
+body {
+    background-color: rgb(250, 250, 250);
+}
+
+header {
+    background-color: white;
+    border-bottom: 1px solid rgb(216, 216, 216);
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    width: 115px;
+}
+
+.search {
+    position: relative;
+}
+
+.search:hover {
+    cursor: text;
+}
+
+.search-field {
+    padding-left: 3em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    font-weight: 300;
+    border: none;
+    background-color: rgb(245, 245, 245);
+    border-radius: 5px;
+    min-width: 250px;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 17px;
+    color: rgb(107, 107, 107);
+}
+
+.icon {
+    color: black;
+}
+
+.icon:hover {
+    color: black;
+}
+
+.icon + .icon {
+    margin-left: 0.5em;
+}
+
+.profilePic {
+    height: 27px;
+    width: 27px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.black-cover {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+}
+
+.search-container {
+    background-color: white;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 15px;
+}
+
+.sm-search-form {
+    width: 100%;
+    position: relative;
+}
+
+.sm-search-field {
+    width: 80%;
+    background-color: rgb(245, 245, 245);
+    border: none;
+    border-radius: 5px;
+    padding-left: 3em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    font-weight: 300;
+}
+
+.sm-search-icon {
+    position: absolute;
+    left: 45px;
+    color: rgb(107, 107, 107);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.close-container {
+    width: 100%;
+}
+
+.close-search:hover {
+    cursor: pointer;
+}
+
+@media (min-width: 400px) {
+    .sm-search-icon {
+        left: 50px;
+    }
+}
+
+@media (min-width: 500px) {
+    .sm-search-icon {
+        left: 60px;
+    }
+}
+
+@media (min-width: 576px) {
+    .icon + .icon {
+        margin-left: 1em;
+    }
+
+    .sm-search-icon {
+        left: 65px;
+    }
+}
