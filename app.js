@@ -122,11 +122,15 @@ passport.serializeUser(function(user, done) {
 
 
 app.use((req, res, next) => {
+    console.log(req.originalUrl)
+    if (req.originalUrl === '/') {
+        return res.redirect('/login')
+    }
     res.locals.formatDistance = formatDistance
     res.locals.error = req.flash('error')
     res.locals.success = req.flash('success')
     res.locals.currentUser = req.user
-    if (!['/login', '/signup', '/logout', '/search'].includes(req.originalUrl) && req.method === 'GET') {
+    if (!['/login', '/signup', '/logout', '/search', '/'].includes(req.originalUrl) && req.method === 'GET') {
         req.session.redirect = req.originalUrl
     }
     next()
