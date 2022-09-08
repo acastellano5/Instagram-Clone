@@ -122,7 +122,6 @@ passport.serializeUser(function(user, done) {
 
 
 app.use((req, res, next) => {
-    console.log(req.originalUrl)
     if (req.originalUrl === '/') {
         return res.redirect('/login')
     }
