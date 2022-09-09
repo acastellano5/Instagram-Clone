@@ -22,38 +22,28 @@ const flash = require('connect-flash')
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet')
 const MongoStore = require('connect-mongo');
-// const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/InstagramClone'
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/InstagramClone'
 const localUrl = 'mongodb://localhost:27017/InstagramClone';
 
 if (process.env.NODE_ENV === 'production') {
     mongoose.connect(dbUrl)
     .then(() => {
-        console.log('DB CONNECTED')
+        console.log('ATLAS DB CONNECTED')
     })
     .catch(e => {
-        console.log('DB CONNECTION ERROR')
+        console.log('CONNECTION ERROR')
         console.log(e)
     })
 } else {
     mongoose.connect(localUrl)
     .then(() => {
-        console.log('DB CONNECTED')
+        console.log('LOCAL DB CONNECTED')
     })
     .catch(e => {
         console.log('DB CONNECTION ERROR')
         console.log(e)
     })
 }
-
-// mongoose.connect(dbUrl)
-//     .then(() => {
-//         console.log('DB CONNECTED')
-//     })
-//     .catch(e => {
-//         console.log('DB CONNECTION ERROR')
-//         console.log(e)
-//     })
 
 app.engine('ejs', ejsMate)
 
@@ -97,7 +87,6 @@ app.use(
     })
 );
 
-// const secret = process.env.SECRET || 'secret'
 const secret = process.env.SECRET || 'secret'
 const localSecret = 'secret'
 
@@ -153,32 +142,6 @@ if (process.env.NODE_ENV === 'production') {
     }))
 }
 
-// const store = MongoStore.create({
-//     mongoUrl: dbUrl,
-//     touchAfter: 24 * 60 * 60,
-//     crypto: {
-//         secret
-//     }
-// });
-
-// store.on("error", function(e) {
-//     console.log("SESSION STORE ERROR", e)
-// })
-
-// app.use(session({
-//     store,
-//     name: 'session',
-//     secret, 
-//     resave: false, 
-//     saveUninitialized: true, 
-//     cookie: {
-//         httpOnly: true,
-//         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-//         maxAge: 1000 * 60 * 60 * 24 * 7
-//     }
-// }))
-
-
 app.use(flash())
 
 app.use(passport.initialize())
@@ -227,7 +190,6 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-// const port = process.env.PORT || 3000
 const port = process.env.PORT || 3000
 const localPort = 3000
 
@@ -240,7 +202,3 @@ if (process.env.NODE_ENV === 'production') {
         console.log('SERVER IS LIVE')
     })
 }
-
-// app.listen(port, () => {
-//     console.log(`SERVER IS LIVE ON PORT ${port}`)
-// })
