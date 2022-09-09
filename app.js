@@ -22,8 +22,12 @@ const flash = require('connect-flash')
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet')
 const MongoStore = require('connect-mongo');
+// const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/InstagramClone'
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/InstagramClone'
-mongoose.connect(dbUrl)
+const localUrl = 'mongodb://localhost:27017/InstagramClone';
+
+if (process.env.NODE_ENV === 'production') {
+    mongoose.connect(dbUrl)
     .then(() => {
         console.log('DB CONNECTED')
     })
@@ -31,6 +35,25 @@ mongoose.connect(dbUrl)
         console.log('DB CONNECTION ERROR')
         console.log(e)
     })
+} else {
+    mongoose.connect(localUrl)
+    .then(() => {
+        console.log('DB CONNECTED')
+    })
+    .catch(e => {
+        console.log('DB CONNECTION ERROR')
+        console.log(e)
+    })
+}
+
+// mongoose.connect(dbUrl)
+//     .then(() => {
+//         console.log('DB CONNECTED')
+//     })
+//     .catch(e => {
+//         console.log('DB CONNECTION ERROR')
+//         console.log(e)
+//     })
 
 app.engine('ejs', ejsMate)
 
@@ -66,7 +89,7 @@ app.use(
                 "'self'",
                 "blob:",
                 "data:",
-                "https://res.cloudinary.com/desmhdpr3/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+                "https://res.cloudinary.com/desmhdpr3/", 
                 "https://images.unsplash.com/"
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
@@ -74,33 +97,87 @@ app.use(
     })
 );
 
+// const secret = process.env.SECRET || 'secret'
 const secret = process.env.SECRET || 'secret'
+const localSecret = 'secret'
 
-const store = MongoStore.create({
-    mongoUrl: dbUrl,
-    touchAfter: 24 * 60 * 60,
-    crypto: {
-        secret
-    }
-});
+if (process.env.NODE_ENV === 'production') {
+    const store = MongoStore.create({
+        mongoUrl: dbUrl,
+        touchAfter: 24 * 60 * 60,
+        crypto: {
+            secret
+        }
+    });
+    
+    store.on("error", function(e) {
+        console.log("SESSION STORE ERROR", e)
+    })
+    
+    app.use(session({
+        store,
+        name: 'session',
+        secret, 
+        resave: false, 
+        saveUninitialized: true, 
+        cookie: {
+            httpOnly: true,
+            expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        }
+    }))
+} else {
+    const store = MongoStore.create({
+        mongoUrl: localUrl,
+        touchAfter: 24 * 60 * 60,
+        crypto: {
+            secret: localSecret
+        }
+    });
+    
+    store.on("error", function(e) {
+        console.log("SESSION STORE ERROR", e)
+    })
+    
+    app.use(session({
+        store,
+        name: 'session',
+        secret: localSecret, 
+        resave: false, 
+        saveUninitialized: true, 
+        cookie: {
+            httpOnly: true,
+            expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        }
+    }))
+}
 
-store.on("error", function(e) {
-    console.log("SESSION STORE ERROR", e)
-})
+// const store = MongoStore.create({
+//     mongoUrl: dbUrl,
+//     touchAfter: 24 * 60 * 60,
+//     crypto: {
+//         secret
+//     }
+// });
 
-app.use(session({
-    store,
-    name: 'session',
-    secret, 
-    resave: false, 
-    saveUninitialized: true, 
-    cookie: {
-        httpOnly: true, 
-        secure: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
-    }
-}))
+// store.on("error", function(e) {
+//     console.log("SESSION STORE ERROR", e)
+// })
+
+// app.use(session({
+//     store,
+//     name: 'session',
+//     secret, 
+//     resave: false, 
+//     saveUninitialized: true, 
+//     cookie: {
+//         httpOnly: true,
+//         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+//         maxAge: 1000 * 60 * 60 * 24 * 7
+//     }
+// }))
+
 
 app.use(flash())
 
@@ -150,8 +227,20 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
+// const port = process.env.PORT || 3000
 const port = process.env.PORT || 3000
+const localPort = 3000
 
-app.listen(port, () => {
-    console.log(`SERVER IS LIVE ON PORT ${port}`)
-})
+if (process.env.NODE_ENV === 'production') {
+    app.listen(port, () => {
+        console.log('SERVER IS LIVE')
+    })
+} else {
+    app.listen(localPort, () => {
+        console.log('SERVER IS LIVE')
+    })
+}
+
+// app.listen(port, () => {
+//     console.log(`SERVER IS LIVE ON PORT ${port}`)
+// })
